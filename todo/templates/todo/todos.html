@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Todos{% endblock title %}
+
+{% block content %}
+
+<style>
+    section{
+        background-color: gray !important;
+        color:white !important;
+    }
+    :root, [data-mdb-theme=light] {
+        --mdb-surface-color: white !important;
+        --mdb-surface-bg: black !important;
+    }
+</style>
+    <!-- todo -->
+
+        <section class="vh-100 " >
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+          
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-5">
+          
+                      <h6 class="mb-3 text-center">Awesome Todo List</h6>
+          
+
+
+                      <form 
+                      
+                      hx-post="/add_todo"
+                      hx-target="#todos"
+                      hx-swap="afterend"
+
+                      dir='ltr' 
+                      class="d-flex justify-content-center align-items-center mb-4"
+                      >
+                      
+                        <div class="form-outline flex-fill">
+                          <input type="text" id="title" name="title" class="form-control form-control-lg" />
+                          <label class="form-label" for="title">What do you need to do today?</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg ms-2">Add</button>
+                      </form>
+          
+
+
+                      <ul class="list-group mb-0" id='todos'>
+                        {% for todo in todos %}
+                        
+                            {% include 'todo/partials/todo.html' %}
+                        {% endfor %}
+                      </ul>
+          
+                    </div>
+                  </div>
+          
+                </div>
+              </div>
+            </div>
+          </section>
+
+    <!-- end todo -->
+
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            document.querySelector("#title").value = '';
+        });
+        
+        {% comment %} document.addEventListener('DOMContentLoaded', (event) => {
+            // Get all checkboxes in the form
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        
+            // Add event listener to each checkbox
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', function() {
+                    // Submit the form when a checkbox changes
+                    this.form.submit();
+                });
+            }
+        }); {% endcomment %}
+        
+    </script> 
+
+{% endblock content %}

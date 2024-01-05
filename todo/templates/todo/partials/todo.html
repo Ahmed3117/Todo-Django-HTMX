@@ -1,0 +1,53 @@
+<form 
+    
+    
+>
+    <li
+    class="list-group-item  d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+    <div class="d-flex align-items-center">
+    {% if todo.is_done %}
+    <s>{{todo.title}}</s>
+    {% else %}
+    <span>{{todo.title}}</span>
+    {% endif %}
+    </div>
+    <div class="d-flex align-items-center">
+        {% if not todo.is_done %}
+        <a 
+        hx-put="/update/{{todo.id}}/"
+        hx-target="closest form"
+        hx-swap="outerHTML"
+
+        href="#!" 
+        class="mx-5" 
+        data-mdb-toggle="tooltip" 
+        title="mark as done ">
+            <i class="fa-solid fa-check"></i>
+        </a>
+        {% endif %}
+        <a 
+        hx-delete="/delete/{{todo.id}}/"
+        hx-target="closest form"
+        hx-swap="outerHTML swap:0.5s"
+        
+        href="#!" 
+        data-mdb-toggle="tooltip" 
+        title="remove ">
+            <i class="fas fa-times text-danger"></i>
+        </a>
+    </div>
+    
+    
+    
+</li>
+
+</form>
+
+{% comment %} <script>
+    function removetodo(todoformid){
+        console.log("removed")
+        console.log(todoformid)
+        removedtodoform = document.getElementById(todoformid);
+        removedtodoform.submit()
+    }
+</script> {% endcomment %}
